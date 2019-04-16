@@ -18,6 +18,8 @@
 #ifndef REALM_REDOP_H
 #define REALM_REDOP_H
 
+#include <memory>
+
 #include <sys/types.h>
 
 namespace Realm {
@@ -181,10 +183,7 @@ namespace Realm {
       virtual void init(void *ptr, size_t count) const
       {
         typename REDOP::RHS *rhs_ptr = static_cast<typename REDOP::RHS *>(ptr);
-        for (size_t i = 0; i < count; i++) {
-            ::new (rhs_ptr) typename REDOP::RHS;
-            *rhs_ptr++ = REDOP::identity;
-        }
+        std::uninitialized_fill(rhs_ptr, rhs_ptr + count, REDOP::identity);
       }
 
 #ifdef NEED_TO_FIX_REDUCTION_LISTS_FOR_DEPPART
