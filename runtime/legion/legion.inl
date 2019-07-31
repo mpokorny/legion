@@ -262,7 +262,7 @@ namespace Legion {
         REDOP_RHS init_serdez;
         reduction_op->init(&init_serdez, 1);
         size_t new_size = init_serdez.legion_buffer_size();
-        if (new_size > size)
+        if (new_size != size)
         {
           size = new_size;
           ptr = realloc(ptr, size);
@@ -281,7 +281,7 @@ namespace Legion {
         reduction_op->fold(&lhs_serdez, &rhs_serdez, 1, true/*exclusive*/);
         size_t new_size = lhs_serdez.legion_buffer_size();
         // Reallocate the buffer if it has grown
-        if (new_size > lhs_size)
+        if (new_size != lhs_size)
         {
           lhs_size = new_size;
           lhs_ptr = realloc(lhs_ptr, lhs_size);
