@@ -7924,7 +7924,6 @@ namespace Legion {
       {
 #ifdef DEBUG_LEGION
         assert(reduction_op != NULL);
-        assert(reduction_state_size == reduction_op->sizeof_rhs);
 #endif
         // Unpack these futures and save them so we can do a
         // deterministic reduction fold operation later
@@ -7943,7 +7942,6 @@ namespace Legion {
       {
 #ifdef DEBUG_LEGION
         assert(reduction_op != NULL);
-        assert(reduction_state_size == reduction_op->sizeof_rhs);
 #endif
         const void *reduc_ptr = derez.get_current_pointer();
         fold_reduction_future(reduc_ptr, reduction_state_size,
