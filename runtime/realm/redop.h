@@ -181,8 +181,10 @@ namespace Realm {
       virtual void init(void *ptr, size_t count) const
       {
         typename REDOP::RHS *rhs_ptr = static_cast<typename REDOP::RHS *>(ptr);
-        for (size_t i = 0; i < count; i++)
-          *rhs_ptr++ = REDOP::identity;
+        for (size_t i = 0; i < count; i++) {
+            ::new(rhs_ptr) typename REDOP::RHS;
+            *rhs_ptr++ = REDOP::identity;
+        }
       }
 
 #ifdef NEED_TO_FIX_REDUCTION_LISTS_FOR_DEPPART
