@@ -275,7 +275,7 @@ list(APPEND LEGION_SRC
 add_library(LegionRuntime ${MAPPER_SRC} ${LEGION_SRC})
 target_link_libraries(LegionRuntime PUBLIC RealmRuntime)
 if(Legion_USE_ZLIB)
-  target_link_libraries(LegionRuntime PUBLIC z)
+  target_link_libraries(LegionRuntime PUBLIC ${ZLIB_LIBRARIES})
 endif()
 set_target_properties(LegionRuntime PROPERTIES POSITION_INDEPENDENT_CODE ON)
 set_target_properties(LegionRuntime PROPERTIES OUTPUT_NAME "legion${INSTALL_SUFFIX}")
