@@ -8392,6 +8392,14 @@ namespace Legion {
                           runtime->forest->subtract_index_spaces(set_expr, 
                               it->first->partition->get_union_expression());
 #ifdef DEBUG_LEGION
+                        if (diff_expr == NULL || diff_expr->is_empty()) {
+                            printf("set_expr->get_volume(): %zu\n",
+                                   set_expr->get_volume());
+                            printf("it->first->total_child_volume: %zu\n",
+                                   it->first->total_child_volume);
+                            printf("it->first->partition_volume: %zu\n",
+                                   it->first->partition_volume);
+                        }
                         assert((diff_expr != NULL) && !diff_expr->is_empty());
                         assert(unrefined_remainders.get_valid_mask() * 
                                 it->second);
