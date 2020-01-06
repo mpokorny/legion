@@ -2117,7 +2117,6 @@ namespace Legion {
         EquivalenceSet* find_child(IndexSpaceNode *node) const;
       public:
         IndexPartNode *const partition;
-      private:
         std::map<IndexSpaceNode*,EquivalenceSet*> children;
         size_t total_child_volume;
         const size_t partition_volume;
