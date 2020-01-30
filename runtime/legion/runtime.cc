@@ -621,7 +621,7 @@ namespace Legion {
       }
       if (subscription_event.exists())
       {
-        Runtime::trigger_event(subscription_event);
+        Runtime::trigger_event(subscription_event, future_complete);
         subscription_event = ApUserEvent::NO_AP_USER_EVENT;
         if (remove_base_resource_ref(RUNTIME_REF))
           assert(false); // should always hold a reference from caller
