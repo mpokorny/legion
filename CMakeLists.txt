@@ -194,7 +194,7 @@ set(BINDINGS_DEFAULT_MODULE "" CACHE STRING "module to load by default in Python
 #------------------------------------------------------------------------------#
 # CUDA configuration
 #------------------------------------------------------------------------------#
-option(Legion_USE_CUDA "Enable support for the CUDA runtime" OFF)
+option(Legion_USE_CUDA "Enable support for the CUDA runtime" ${USE_CUDA})
 if(Legion_USE_CUDA)
   set(Legion_CUDA_ARCH "" CACHE STRING "Comma-separated list of CUDA architectures to build for (e.g. 60,70)")
 
@@ -313,7 +313,7 @@ endif()
 #------------------------------------------------------------------------------#
 # HDF5 configuration
 #------------------------------------------------------------------------------#
-option(Legion_USE_HDF5 "Enable support for HDF5" OFF)
+option(Legion_USE_HDF5 "Enable support for HDF5" ${USE_HDF5})
 if(Legion_USE_HDF5)
   find_package(HDF5 REQUIRED COMPONENTS C)
 
@@ -345,7 +345,7 @@ endif()
 #------------------------------------------------------------------------------#
 # zlib configuration
 #------------------------------------------------------------------------------#
-option(Legion_USE_ZLIB "Enable support for zlib" ON)
+option(Legion_USE_ZLIB "Enable support for zlib" ${USE_ZLIB})
 if(Legion_USE_ZLIB)
   find_package(ZLIB REQUIRED)
   # define variable for legion_defines.h
@@ -364,7 +364,7 @@ endif()
 #------------------------------------------------------------------------------#
 # Miscelaneous other options
 #------------------------------------------------------------------------------#
-set(Legion_MAX_DIM 3 CACHE STRING "Maximum number of dimensions")
+set(Legion_MAX_DIM ${MAX_DIM} CACHE STRING "Maximum number of dimensions")
 set_property(CACHE Legion_MAX_DIM PROPERTY STRINGS 1 2 3 4 5 6 7 8 9)
 mark_as_advanced(Legion_MAX_DIM)
 
