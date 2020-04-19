@@ -21,8 +21,8 @@ project(Legion)
 # Some boilerplate to setup nice output directories
 #------------------------------------------------------------------------------#
 
-#for multilib distros
-include(GNUInstallDirs)
+set(CMAKE_INSTALL_LIBDIR "${CMAKE_INSTALL_LIBDIR}/hyperion")
+set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/hyperion")
 
 list(INSERT CMAKE_MODULE_PATH 0 "${Legion_SOURCE_DIR}/cmake")
 if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
@@ -54,7 +54,7 @@ if (CMAKE_BUILD_TYPE AND ( CMAKE_BUILD_TYPE STREQUAL "Debug"))
   set(DEBUG_LEGION ON)
 endif()
 
-set(BUILD_SHARED_LIBS OFF   CACHE BOOL   "Whether or not to build shared libraries instead of static")
+set(BUILD_SHARED_LIBS ON CACHE BOOL   "Whether or not to build shared libraries instead of static")
 
 #------------------------------------------------------------------------------#
 # Architecture
