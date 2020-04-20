@@ -17,6 +17,14 @@
 cmake_minimum_required(VERSION 3.1)
 project(Legion)
 
+set(CMAKE_BUILD_TYPE "${Legion_CMAKE_BUILD_TYPE}")
+if (Legion_BOUNDS_CHECKS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOUNDS_CHECKS")
+endif(Legion_BOUNDS_CHECKS)
+if (Legion_PRIVILEGE_CHECKS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPRIVILEGE_CHECKS")
+endif(Legion_PRIVILEGE_CHECKS)
+
 #------------------------------------------------------------------------------#
 # Some boilerplate to setup nice output directories
 #------------------------------------------------------------------------------#
