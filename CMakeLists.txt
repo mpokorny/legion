@@ -17,7 +17,8 @@
 cmake_minimum_required(VERSION 3.1)
 project(Legion)
 
-cmake_policy(SET CMP0077 NEW)
+# for CUDA_USE_STATIC_CUDA_RUNTIME variable and old FindCUDA
+cmake_policy(SET CMP0077 OLD)
 
 set(CMAKE_BUILD_TYPE "${Legion_CMAKE_BUILD_TYPE}")
 if (Legion_BOUNDS_CHECKS)
