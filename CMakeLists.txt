@@ -17,6 +17,8 @@
 cmake_minimum_required(VERSION 3.1)
 project(Legion)
 
+cmake_policy(SET CMP0077 NEW)
+
 set(CMAKE_BUILD_TYPE "${Legion_CMAKE_BUILD_TYPE}")
 if (Legion_BOUNDS_CHECKS)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DBOUNDS_CHECKS")
@@ -204,7 +206,7 @@ set(BINDINGS_DEFAULT_MODULE "" CACHE STRING "module to load by default in Python
 #------------------------------------------------------------------------------#
 option(Legion_USE_CUDA "Enable support for the CUDA runtime" ${USE_CUDA})
 if(Legion_USE_CUDA)
-  set(Legion_CUDA_ARCH "" CACHE STRING "Comma-separated list of CUDA architectures to build for (e.g. 60,70)")
+  set(Legion_CUDA_ARCH ${CUDA_ARCH} CACHE STRING "Comma-separated list of CUDA architectures to build for (e.g. 60,70)")
 
   if(NOT BUILD_SHARED_LIBS)
     set(CUDA_USE_STATIC_CUDA_RUNTIME ON)
