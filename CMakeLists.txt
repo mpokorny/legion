@@ -207,7 +207,7 @@ set(BINDINGS_DEFAULT_MODULE "" CACHE STRING "module to load by default in Python
 #------------------------------------------------------------------------------#
 option(Legion_USE_CUDA "Enable support for the CUDA runtime" ${USE_CUDA})
 if(Legion_USE_CUDA)
-  set(Legion_CUDA_ARCH ${CUDA_ARCH} CACHE STRING "Comma-separated list of CUDA architectures to build for (e.g. 60,70)")
+  set(Legion_CUDA_ARCH ${CUDA_ARCH})
 
   if(NOT BUILD_SHARED_LIBS)
     set(CUDA_USE_STATIC_CUDA_RUNTIME ON)
@@ -375,9 +375,7 @@ endif()
 #------------------------------------------------------------------------------#
 # Miscelaneous other options
 #------------------------------------------------------------------------------#
-set(Legion_MAX_DIM ${MAX_DIM} CACHE STRING "Maximum number of dimensions")
-set_property(CACHE Legion_MAX_DIM PROPERTY STRINGS 1 2 3 4 5 6 7 8 9)
-mark_as_advanced(Legion_MAX_DIM)
+set(Legion_MAX_DIM ${MAX_DIM})
 
 # define variable for legion_defines.h
 set(LEGION_MAX_DIM ${Legion_MAX_DIM})
