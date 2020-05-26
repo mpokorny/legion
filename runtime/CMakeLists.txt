@@ -38,7 +38,7 @@ list(APPEND REALM_SRC
   realm/deppart/inst_helper.h
   realm/deppart/partitions.h               realm/deppart/partitions.cc
   realm/deppart/preimage.h                 realm/deppart/preimage.cc
-  realm/deppart/rectlist.h                 
+  realm/deppart/rectlist.h
   realm/deppart/rectlist.inl
   realm/deppart/setops.h                   realm/deppart/setops.cc
   realm/deppart/sparsity_impl.h            realm/deppart/sparsity_impl.cc
@@ -209,6 +209,7 @@ find_package(Threads REQUIRED)
 cmake_policy(SET CMP0063 NEW) # visibility controls in all builds
 add_library(RealmRuntime ${REALM_SRC})
 target_compile_options(RealmRuntime PRIVATE ${CXX_BUILD_WARNING_FLAGS})
+target_compile_options(RealmRuntime PRIVATE ${HOST_ONLY})
 if(COMPILER_SUPPORTS_DEFCHECK)
   # use the cxx_defcheck wrapper to make sure realm_defines.h is included
   #  any place it needs to be
@@ -268,6 +269,7 @@ if(Legion_USE_CUDA)
       set_target_properties(realm_cudarthijack PROPERTIES POSITION_INDEPENDENT_CODE ON)
       set_target_properties(realm_cudarthijack PROPERTIES CXX_VISIBILITY_PRESET hidden)
       set_target_properties(realm_cudarthijack PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+      target_compile_options(realm_cudarthijack PRIVATE ${HOST_ONLY})
       target_include_directories(realm_cudarthijack PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${PROJECT_BINARY_DIR}/runtime
@@ -278,7 +280,7 @@ if(Legion_USE_CUDA)
       # without Kokkos interop, we can just add the hijack directly
       target_sources(RealmRuntime PRIVATE realm/cuda/cudart_hijack.cc)
     endif()
-    
+
     # filter anything referring to *cudart* out of the CUDA_LIBRARIES
     #  making sure our changes are visible to the scope above
     # so list(FILTER ...) doesn't exist until cmake 3.6 - do string regex instead
@@ -379,7 +381,7 @@ if(Legion_USE_Kokkos)
   # and add kokkos libraries to our exported library requirements
   set_property(TARGET RealmRuntime APPEND
     PROPERTY INTERFACE_LINK_LIBRARIES "\$<LINK_ONLY:Kokkos::kokkoscore>")
-  
+
   # if Kokkos' CUDA target is enabled, and we're performing runtime hijack,
   #  rewrite Kokkos' cudart dependency to be on Realm instead
   if(Kokkos_ENABLE_CUDA AND Legion_HIJACK_CUDART)
@@ -442,16 +444,16 @@ list(APPEND LEGION_SRC
   legion/bitmask.h
   legion/field_tree.h
   legion/garbage_collection.h             legion/garbage_collection.cc
-  legion/interval_tree.h                 
-  legion/legion_allocation.h             
+  legion/interval_tree.h
+  legion/legion_allocation.h
   legion/legion_analysis.h                legion/legion_analysis.cc
   legion/legion_c.h                       legion/legion_c.cc
-  legion/legion_config.h                 
+  legion/legion_config.h
   legion/legion_constraint.h              legion/legion_constraint.cc
   legion/legion_context.h                 legion/legion_context.cc
-  legion/legion_c_util.h                 
+  legion/legion_c_util.h
   legion/legion.cc
-  legion/legion.inl                      
+  legion/legion.inl
   legion/legion_domain.h
   legion/legion_domain.inl
   legion/legion_instances.h               legion/legion_instances.cc
@@ -462,12 +464,12 @@ list(APPEND LEGION_SRC
   legion/legion_spy.h                     legion/legion_spy.cc
   legion/legion_tasks.h                   legion/legion_tasks.cc
   legion/legion_trace.h                   legion/legion_trace.cc
-  legion/legion_types.h                 
-  legion/legion_utilities.h             
+  legion/legion_types.h
+  legion/legion_utilities.h
   legion/legion_views.h                   legion/legion_views.cc
   legion/legion_redop.h                   legion/legion_redop.cc
   legion/mapper_manager.h                 legion/mapper_manager.cc
-  legion/rectangle_set.h                
+  legion/rectangle_set.h
   legion/region_tree.h                    legion/region_tree.cc
   legion/runtime.h                        legion/runtime.cc
 )
@@ -496,7 +498,7 @@ foreach(N1 RANGE 1 ${LEGION_MAX_DIM})
     VERBATIM
     )
   list(APPEND LEGION_SRC region_tree_${N1}.cc)
-  
+
   foreach(N2 RANGE 1 ${LEGION_MAX_DIM})
     add_custom_command(
       COMMAND perl -e "$x='#define INST_N1 ${N1}EOL#define INST_N2 ${N2}EOL#include QTlegion/region_tree_tmpl.ccQT'; $x=~s/EOL/chr(10)/ge; $x=~s/QT/chr(34)/ge; print $x;" > region_tree_${N1}_${N2}.cc
@@ -506,17 +508,18 @@ foreach(N1 RANGE 1 ${LEGION_MAX_DIM})
     list(APPEND LEGION_SRC region_tree_${N1}_${N2}.cc)
   endforeach()
 endforeach()
-              
+
 # Legion Fortran
 if(Legion_USE_Fortran)
   list(APPEND LEGION_FORTRAN_SRC
     legion/legion_f_types.f90
     legion/legion_f_c_interface.f90
-    legion/legion_f.f90              
+    legion/legion_f.f90
   )
-endif()               
+endif()
 
 add_library(LegionRuntime ${MAPPER_SRC} ${LEGION_SRC} ${LEGION_FORTRAN_SRC})
+target_compile_options(LegionRuntime PRIVATE ${HOST_ONLY})
 # do we have any cuda source files in Legion itself?
 if(LEGION_CUDA_SRC)
   if("${Legion_CUDA_ARCH}" STREQUAL "")
