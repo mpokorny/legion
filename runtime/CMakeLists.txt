@@ -210,11 +210,7 @@ cmake_policy(SET CMP0063 NEW) # visibility controls in all builds
 add_library(RealmRuntime ${REALM_SRC})
 target_compile_options(RealmRuntime PRIVATE ${CXX_BUILD_WARNING_FLAGS})
 target_compile_options(RealmRuntime PRIVATE ${HOST_ONLY})
-if(COMPILER_SUPPORTS_DEFCHECK)
-  # use the cxx_defcheck wrapper to make sure realm_defines.h is included
-  #  any place it needs to be
-  target_compile_options(RealmRuntime PRIVATE --defcheck realm_defines.h)
-endif()
+target_link_options(RealmRuntime PUBLIC "SHELL:-cudart none")
 if(Legion_USE_LIBDL)
   target_link_libraries(RealmRuntime PRIVATE ${CMAKE_DL_LIBS})
   if(APPLE)
