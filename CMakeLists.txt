@@ -64,8 +64,6 @@ if(NOT BUILD_MARCH STREQUAL "none")
     message(FATAL_ERROR "BUILD_MARCH and BUILD_MCPU are incompatible")
   endif()
 
-  # Try -march first. On platforms that don't support it, GCC will issue
-  # a hard error, so we'll know not to use it.
   if(BUILD_MARCH)
     set(INTERNAL_BUILD_MARCH ${BUILD_MARCH})
   else()
@@ -124,7 +122,7 @@ check_cxx_compiler_flag("--defcheck __test__" COMPILER_SUPPORTS_DEFCHECK)
 #------------------------------------------------------------------------------#
 
 # For now we want the optimization flags to match on both normal make and cmake
-# builds so we override the cmake defaults here for release, this changes 
+# builds so we override the cmake defaults here for release, this changes
 # -O3 to -O2 and removes -DNDEBUG
 set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 
@@ -395,7 +393,7 @@ if(Legion_USE_ZLIB)
   # define variable for legion_defines.h
   set(LEGION_USE_ZLIB ON)
 endif()
-                                                                                          
+
 #------------------------------------------------------------------------------#
 # Fortran configuration
 #------------------------------------------------------------------------------#

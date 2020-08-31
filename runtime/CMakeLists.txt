@@ -209,7 +209,6 @@ find_package(Threads REQUIRED)
 cmake_policy(SET CMP0063 NEW) # visibility controls in all builds
 add_library(RealmRuntime ${REALM_SRC})
 target_compile_options(RealmRuntime PRIVATE ${CXX_BUILD_WARNING_FLAGS})
-target_compile_options(RealmRuntime PRIVATE ${HOST_ONLY})
 target_link_options(RealmRuntime PUBLIC "SHELL:-cudart none")
 if(Legion_USE_LIBDL)
   target_link_libraries(RealmRuntime PRIVATE ${CMAKE_DL_LIBS})
@@ -265,7 +264,6 @@ if(Legion_USE_CUDA)
       set_target_properties(realm_cudarthijack PROPERTIES POSITION_INDEPENDENT_CODE ON)
       set_target_properties(realm_cudarthijack PROPERTIES CXX_VISIBILITY_PRESET hidden)
       set_target_properties(realm_cudarthijack PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
-      target_compile_options(realm_cudarthijack PRIVATE ${HOST_ONLY})
       target_include_directories(realm_cudarthijack PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${PROJECT_BINARY_DIR}/runtime
@@ -515,7 +513,6 @@ if(Legion_USE_Fortran)
 endif()
 
 add_library(LegionRuntime ${MAPPER_SRC} ${LEGION_SRC} ${LEGION_FORTRAN_SRC})
-target_compile_options(LegionRuntime PRIVATE ${HOST_ONLY})
 # do we have any cuda source files in Legion itself?
 if(LEGION_CUDA_SRC)
   if("${Legion_CUDA_ARCH}" STREQUAL "")
